@@ -21,12 +21,15 @@ io.on('connection', function(socket){
     console.log("socket",socket.id);
     socket.on('chat message', function(msg){
         console.log('message: ' + JSON.stringify(msg));
-        io.emit('chat message', {"msg": msg.data,"id":msg.id});
+        if(socket.id == msg.id){
+            io.emit('chat message', {"msg": "Hello-- "+ msg.id +" --Client how can i help you!","id":socket.id});
+        }
+
 
         // socket.send("From server",msg.data);
     });
-    socket.on('disconnect',function () {
-        console.log("1 connection lost");
+    socket.on('disconnect', function(){
+        console.log('user disconnected');
     });
 });
 

@@ -9,7 +9,7 @@
         form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
         form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
         form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-        #messages { list-style-type: none; margin: 0; padding: 0; }
+        #messages { margin: 0; padding: 0; }
         #messages li { padding: 5px 10px; }
         #messages li:nth-child(odd) { background: #eee; }
     </style>
@@ -18,26 +18,47 @@
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
     var socket = io();
+
     $(function () {
-        var socket = io();
         $('form').submit(function(){
+            let keepLoop = true;
+            setTimeout(function () {
+                keepLoop = false;
+                console.log("keepLoop: ",keepLoop);
+                return false;
+            },1000);
+            console.log("keepLoop: ",keepLoop);
+            var randStr = "asasdedcvvsf&sdsdjkdjksdfjskfgsjfksjdfsjdfkskdjfksjdfkjsdkfjskdjfksdfjsdkjfksdjfksdjfkjsdkfjskdjfksjdksvnskvsdvsvsdnvsndvsddvsdvsdfsdfsdfsdfklsdjkfjksdfjklsdjfkjsdfkljsdklfjsdkljfksdjfksdfjsdklfjsdklfjsdklfjsdklfjsdklfjklsdfksdjfklsdjfklsdjfklsdjfklsdjfklsdjfklsdjfbfsvjsfd";
+            console.log("Starting loop");
+            var counter = 0;
+            // var interval = setInterval(function () {
+            //     console.log("Let's repeat for 1 seconds...");
+            //     counter++;
+            //     socket.emit('chat message',{"data":randStr,"id":socket.id,"counter":counter});
+            // }, 0);
+            //
+            // setTimeout(function() {
+            //     clearInterval(interval);
+            //     console.log("Finished loop");
+            // }, 1000);
+
             socket.emit('chat message',{"data":$('#m').val(),"id":socket.id});
-            $('#m').val('');
+            // $('#m').val('');
             return false;
         });
     });
     socket.on('chat message', function(obj){
         console.log("socket.id",socket.id);
-        console.log("server socket.id",obj.id);
-        console.log(socket)
-        if(socket.id != obj.id){
+        console.log(socket);
+        if(socket.id == obj.id){
             $('#messages').append($('<li>').text(obj.msg));
         }
+
 
     });
 </script>
 <body>
-    <ul id="messages"></ul>
+    <ol id="messages"></ol>
     <form action="">
         <input id="m" autocomplete="off" /><button>Send</button>
     </form>
