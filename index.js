@@ -1,11 +1,19 @@
-let app = require('express')();
+const express = require('express');
+const app = express();
 let http = require('http').Server(app);
+var path = require('path');
 let io = require('socket.io')(http);
 const dir = "/client";
+var port = process.env.PORT || 3000;
+
+app.set('views', __dirname + '/client');
+
+app.set('view engine', 'html');
+app.use(express.static(path.join(__dirname, 'client')));
 
 app.get('/', function(req, res){
     // var __dirname = "/client";
-    res.sendFile(__dirname + dir + '/index.html');
+    res.sendFile('index.html');
 });
 
 io.on('connection', function(socket){
@@ -22,6 +30,7 @@ io.on('connection', function(socket){
     });
 });
 
-http.listen(3000, function(){
-    console.log('listening on *:3000');
-});
+http.listen(port);
+// http.listen(3000, function(){
+//     console.log('listening on *:3000');
+// });
