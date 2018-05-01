@@ -21,9 +21,10 @@ io.on('connection', function(socket){
     console.log("socket",socket.id);
     socket.on('chat message', function(msg){
         console.log('message: ' + JSON.stringify(msg));
-        if(socket.id == msg.id){
-            io.emit('chat message', {"msg": "Hello-- "+ msg.id +" --Client how can i help you!","id":socket.id});
-        }
+        //if(socket.id == msg.id){
+            // io.emit('chat message', {"msg": "Hello-- "+ msg.id +" --Client how can i help you!","id":socket.id});
+        io.to(socket.id).emit('chat message', {"msg": "Hello-- "+ msg.id +" --Client how can i help you!","id":socket.id});
+        //}
 
 
         // socket.send("From server",msg.data);

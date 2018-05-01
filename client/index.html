@@ -50,9 +50,9 @@
     socket.on('chat message', function(obj){
         console.log("socket.id",socket.id);
         console.log(socket);
-        if(socket.id == obj.id){
+        // if(socket.id == obj.id){
             $('#messages').append($('<li>').text(obj.msg));
-        }
+        // }
 
 
     });
